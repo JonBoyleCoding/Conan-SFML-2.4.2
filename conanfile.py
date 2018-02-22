@@ -1,6 +1,6 @@
 from conans import ConanFile, CMake, tools
 import os
-
+from conans.tools import os_info, SystemPackageTool
 
 class SfmlConan(ConanFile):
     name = "sfml"
@@ -12,11 +12,16 @@ class SfmlConan(ConanFile):
     options = None
     default_options = None
     generators = "cmake"
-    
-    def requirements(self):
-        if self.settings.os == "Linux":
-            self.requires = ("openal/1.17.2@GatorQue/stable")
 
+    def system_requirements(self):
+        pack_name = None
+        if os_info.linux_distro == "ubuntu":
+            pack_name = ["libopenal-dev", "libvorbis-dev", "libflac-dev"]
+    
+        if pack_name:
+            installer = SystemPackageTool()
+            installer.install(pack_name)  # Install the package, will update the package database if pack_name isn't already installed
+        
     def source(self):
         self.run("git clone https://github.com/SFML/SFML.git")
         self.run("cd SFML && git checkout tags/2.4.2")
