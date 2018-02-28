@@ -1,6 +1,16 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
+#include <exception>
+#include <SFML/Config.hpp>
+
+using namespace std;
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+	if (SFML_VERSION_MAJOR == 2 &&
+		SFML_VERSION_MINOR == 4 &&
+		SFML_VERSION_PATCH == 2)
+	{
+		return 0;
+	}
+
+	throw std::exception("SFML Version Mismatch");
 }
