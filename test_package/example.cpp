@@ -12,5 +12,5 @@ int main() {
 		return 0;
 	}
 
-	throw std::exception("SFML Version Mismatch");
+	throw std::invalid_argument("SFML Version Mismatch");
 }
